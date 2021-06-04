@@ -1,4 +1,5 @@
 import pygame
+
 import random
 import os
 import math
@@ -56,6 +57,7 @@ class good_Bullet():
         self.cool_down_counter=0
         self.y_velocity=random.randint(1, 5)
 
+
     def draw(self, window):
         window.blit(self.pow_img, (self.x, self.y))
         pygame.display.flip()
@@ -83,10 +85,20 @@ class Player(Packman):
         self.pow_img= navy_pow
         self.mask = pygame.mask.from_surface(self.packman_img)
         self.max_health= health
+        self.rect = self.packman_img.get_rect()
     def get_width(self):
         return self.packman_img.get_width()
     def get_height(self):
         return self.packman_img.get_height()
+
+    def update_score(self, obj, score =0):
+        """
+        Jeśli trzeba przydziela punkty i ustawia piłeczkę w początkowym położeniu.
+        """
+        if (self.rect.y - obj.rect.y)**2 + (self.rect.x- obj.rect.x) <1600:
+            score =score+1
+        return score
+
 
 
 class Player_2(good_Bullet):
@@ -103,6 +115,8 @@ class Player_2(good_Bullet):
         return self.pow_img.get_height()
     def get_width(self):
         return self.pow_img.get_width()
+    def collision(self, obj):
+        return collide(self, obj)
 
 
 class Player_3(bad_Bullet):
@@ -119,6 +133,13 @@ class Player_3(bad_Bullet):
         return self.pow_red_img.get_height()
     def get_width(self):
         return self.pow_red_img.get_width()
+
+
+
+def collide(obj1, obj2):
+    if math.fabs(obj1.x- obj2.x) < 50:
+        if math.fabs(obj1.y - obj2.y) < 50:
+            return True
 
 def main():
     go =True
@@ -148,17 +169,30 @@ def main():
         scores = font.render(f"Score: {score}", 1, (0, 0, 0))
         Window.blit(lives, (5, 3))
         Window.blit(scores, (5, 23))
+
+
+
+
+
+        #for gp in good_pows:
+         #   if collide(gp, player):
+          #      print("kolizja")
+
+
         for godpow in good_pows:
-            godpow.draw(Window)
+            player.update_score(godpow)
 
         for badpow in bad_pows:
             badpow.draw(Window)
+        for goodpow in good_pows:
+            goodpow.draw(Window)
 
         player.draw(Window)
         #good_pow.draw(Window)
         #bad_pow.draw(Window)
 
         pygame.display.update()
+
 
 
     while go:
@@ -192,13 +226,23 @@ def main():
         if keys[pygame.K_RIGHT] and player.x + player_vel + 80 < WIDTH:
             player.x += player_vel
 
+        for gp in good_pows:
+            if collide(gp, player):
+                good_pows.remove(gp)
+                score +=1
+        for bp in bad_pows:
+            if collide(bp, player) is True:
+                bad_pows.remove(bp)
+                live-=1
+                if live<0:
+                    print("LOST!")
 
 
         for gp in good_pows:
             good_vel = random.choice([ 1, 3])
             gp.move(good_vel)
-            if ((gp.get_height()) ** 2 + (player.get_height()) ** 2) ** (1 / 2) < 40 and ((gp.get_width()) ** 2 + (player.get_width()) ** 2) ** (1 / 2) < 40:
-                live -= 1
+
+
             if gp.y+gp.get_height() > HEIGHT:
                 good_pows.remove(gp)
 
