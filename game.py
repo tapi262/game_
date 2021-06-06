@@ -31,7 +31,7 @@ def image_bg(name, useColorKey=True):
 
 
 bg=pygame.transform.scale(pygame.image.load(os.path.join(".\\bg.png")), (WIDTH, HEIGHT))
-
+BG = pygame.transform.scale(pygame.image.load(os.path.join(".\\black.png")), (WIDTH, HEIGHT))
 class Packman:
     def __init__(self, x, y, health=100):
         self.x=x
@@ -91,13 +91,6 @@ class Player(Packman):
     def get_height(self):
         return self.packman_img.get_height()
 
-    def update_score(self, obj, score =0):
-        """
-        Jeśli trzeba przydziela punkty i ustawia piłeczkę w początkowym położeniu.
-        """
-        if (self.rect.y - obj.rect.y)**2 + (self.rect.x- obj.rect.x) <1600:
-            score =score+1
-        return score
 
 
 
@@ -153,16 +146,18 @@ def main():
 
     bad_pows=[]
 
-    bpow_len=1
+    bpow_len=0
 
     font= pygame.font.SysFont("algerian", 20)
+    font1 = pygame.font.SysFont("algerian", 40)
     player_vel =5
     packman= Packman(300, 400)
     player= Player(300, 400)
     good_pow=Player_2()
     bad_pow=Player_3()
     times= pygame.time.Clock()
-
+    lost = False
+    lost_count = 0
     def new_draw():
         Window.blit(bg, (0,0))
         lives = font.render(f"Lives: {live}", 1, (0, 0, 0))
@@ -174,13 +169,10 @@ def main():
 
 
 
+
         #for gp in good_pows:
          #   if collide(gp, player):
           #      print("kolizja")
-
-
-        for godpow in good_pows:
-            player.update_score(godpow)
 
         for badpow in bad_pows:
             badpow.draw(Window)
@@ -190,15 +182,29 @@ def main():
         player.draw(Window)
         #good_pow.draw(Window)
         #bad_pow.draw(Window)
+        if lost:
+            lost_label = font1.render("LOST!!!", 1, (0,0,0))
+            Window.blit(lost_label, (200, 200))
+            newgame = font.render("press mouse", 1, (0, 0, 0))
+            Window.blit(newgame, (150, 100))
 
         pygame.display.update()
-
-
 
     while go:
         times.tick(fps)
         new_draw()
         vel=3
+
+        if live <= 0:
+            lost = True
+            lost_count += 1
+
+        if lost:
+            if lost_count > fps * 10:
+                go = False
+            else:
+                continue
+
         if len(good_pows)==0:
             gpow_len+=1
             for i in range(0, gpow_len):
@@ -211,10 +217,9 @@ def main():
                 bad_pow = Player_3()
                 bad_pows.append(bad_pow)
 
-        for el in pygame.event.get():
-            if el.type == pygame.QUIT:
-                go = False
-
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                quit()
 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_UP] and player.y - player_vel > 430:
@@ -225,6 +230,11 @@ def main():
             player.x -= player_vel
         if keys[pygame.K_RIGHT] and player.x + player_vel + 80 < WIDTH:
             player.x += player_vel
+        if keys[pygame.K_ESCAPE]:
+            go = False
+        if keys[pygame.K_m]:
+            menu()
+
 
         for gp in good_pows:
             if collide(gp, player):
@@ -241,8 +251,6 @@ def main():
         for gp in good_pows:
             good_vel = random.choice([ 1, 3])
             gp.move(good_vel)
-
-
             if gp.y+gp.get_height() > HEIGHT:
                 good_pows.remove(gp)
 
@@ -252,9 +260,26 @@ def main():
             if bp.y+bp.get_height() > HEIGHT:
                 bad_pows.remove(bp)
 
-        new_draw()
 
+def menu():
+    go = True
+    while go:
+        keys = pygame.key.get_pressed()
+        font = pygame.font.SysFont("algerian", 20)
+        Window.blit(bg, (0, 0))
+        game_label = font.render("PRESS    G    TO BEGIN GAME", 1, (0,0,0))
+        Window.blit(game_label, (140, 10))
+        pygame.display.update()
+        for el in pygame.event.get():
+            if el.type == pygame.QUIT:
+                go = False
+            if keys[pygame.K_g]:
+                main()
+            if keys[pygame.K_a]:
+                Window.blit(bg, (0, 0))
+                author_label = font.render("info o autorze", 1, (0, 0, 0))
+                Window.blit(author_label, (140, 100))
+                pygame.display.update()
 
-
-
-main()
+    pygame.quit()
+menu()
