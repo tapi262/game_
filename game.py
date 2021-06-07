@@ -6,17 +6,17 @@ import math
 import time
 
 pygame.font.init()
-
+pygame.init()
 WIDTH=500
 HEIGHT =500
 
 Window = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("NEW PACKMAN")
-red_man= pygame.image.load(os.path.join(".\\d_packman.png"))
-green_man= pygame.image.load(os.path.join(".\\packman.png"))
+#red_man= pygame.image.load(os.path.join(".\\d_packman.png"))
+green_man= pygame.image.load(os.path.join("c:/Users/48724/PycharmProjects/pythonProject13/packman.png"))
 
 #red_pow=pygame.image.load(os.path.join(".\\red.png"))
-navy_pow=pygame.image.load(os.path.join(".\\navy.png"))
+navy_pow=pygame.image.load(os.path.join("c:/Users/48724/PycharmProjects/pythonProject13/navy.png"))
 
 useColorKey=True
 def image_bg(name, useColorKey=True):
@@ -30,8 +30,8 @@ def image_bg(name, useColorKey=True):
     return image
 
 
-bg=pygame.transform.scale(pygame.image.load(os.path.join(".\\bg.png")), (WIDTH, HEIGHT))
-BG = pygame.transform.scale(pygame.image.load(os.path.join(".\\black.png")), (WIDTH, HEIGHT))
+bg=pygame.transform.scale(pygame.image.load(os.path.join("c:/Users/48724/PycharmProjects/pythonProject13/bg.png")), (WIDTH, HEIGHT))
+#BG = pygame.transform.scale(pygame.image.load(os.path.join(".\\black.png")), (WIDTH, HEIGHT))
 class Packman:
     def __init__(self, x, y, health=100):
         self.x=x
@@ -130,9 +130,11 @@ class Player_3(bad_Bullet):
 
 
 def collide(obj1, obj2):
-    if math.fabs(obj1.x- obj2.x) < 50:
-        if math.fabs(obj1.y - obj2.y) < 50:
-            return True
+    #if math.fabs((obj1.x)- (obj2.x)) < 40:
+        #if math.fabs((obj1.y) - (obj2.y)) < 40:
+            #return True
+    if ((obj1.x+40)- (obj2.x+15))**2 + ((obj1.y+30) - (obj2.y+15))**2 < 1650:
+        return True
 
 def main():
     go =True
@@ -200,7 +202,7 @@ def main():
             lost_count += 1
 
         if lost:
-            if lost_count > fps * 10:
+            if lost_count > fps :
                 go = False
             else:
                 continue
@@ -233,15 +235,15 @@ def main():
         if keys[pygame.K_ESCAPE]:
             go = False
         if keys[pygame.K_m]:
-            menu()
+            main_menu()
 
 
         for gp in good_pows:
-            if collide(gp, player):
+            if collide(player, gp):
                 good_pows.remove(gp)
                 score +=1
         for bp in bad_pows:
-            if collide(bp, player) is True:
+            if collide( player, bp) is True:
                 bad_pows.remove(bp)
                 live-=1
                 if live<0:
@@ -260,6 +262,63 @@ def main():
             if bp.y+bp.get_height() > HEIGHT:
                 bad_pows.remove(bp)
 
+def main_menu():
+    smallfont = pygame.font.SysFont('Arial', 30)
+    Window.blit(bg, (0, 0))
+    text1 = smallfont.render('quit', True, (255, 255, 255))
+    text2 = smallfont.render('start', True, (255, 255, 255))
+    text3 = smallfont.render('author', True, (255, 255, 255))
+    text4 = smallfont.render('high score', True, (255, 255, 255))
+    while True:
+
+        for ev in pygame.event.get():
+
+            if ev.type == pygame.QUIT:
+                pygame.quit()
+            if ev.type == pygame.MOUSEBUTTONDOWN:
+
+                # if the mouse is clicked on the
+                # button the game is terminated
+                if WIDTH / 2 <= mouse[0] <= WIDTH / 2 + 140 and HEIGHT / 2 <= mouse[1] <= HEIGHT / 2 + 40:
+                    pygame.quit()
+                if WIDTH / 2 <= mouse[0] <= WIDTH / 2 + 140 and HEIGHT / 2+40 <= mouse[1] <= HEIGHT / 2 + 80:
+                    main()
+                if WIDTH / 2 <= mouse[0] <= WIDTH / 2 + 140 and HEIGHT / 2+80 <= mouse[1] <= HEIGHT / 2 + 120:
+                    menu()
+                if WIDTH / 2 <= mouse[0] <= WIDTH / 2 + 140 and HEIGHT / 2+120 <= mouse[1] <= HEIGHT / 2 + 160:
+                    best_game()
+        mouse = pygame.mouse.get_pos()
+        if WIDTH / 2 <= mouse[0] <= WIDTH / 2 + 140 and HEIGHT/ 2 <= mouse[1] <= HEIGHT / 2 + 40:
+            pygame.draw.rect(Window, (0,100,0), [WIDTH/ 2, HEIGHT / 2, 140, 40])
+        else:
+            pygame.draw.rect(Window, (0, 0, 0), [WIDTH / 2, HEIGHT / 2, 140, 40])
+        Window.blit(text1, (WIDTH / 2 + 10, HEIGHT / 2))
+
+        if WIDTH / 2 <= mouse[0] <= WIDTH / 2 + 140 and HEIGHT / 2+30 <= mouse[1] <= HEIGHT / 2 + 70:
+            pygame.draw.rect(Window, (0, 100, 0), [WIDTH / 2, HEIGHT / 2+40, 140, 40])
+        else:
+            pygame.draw.rect(Window, (0, 0, 0), [WIDTH / 2, HEIGHT / 2+40, 140, 40])
+        Window.blit(text2, (WIDTH / 2 + 10, HEIGHT / 2+40))
+
+        if WIDTH / 2 <= mouse[0] <= WIDTH / 2 + 140 and HEIGHT / 2 + 80 <= mouse[1] <= HEIGHT / 2 + 120:
+            pygame.draw.rect(Window, (0, 100, 0), [WIDTH / 2, HEIGHT / 2 + 80, 140, 40])
+        else:
+            pygame.draw.rect(Window, (0, 0, 0), [WIDTH / 2, HEIGHT / 2 + 80, 140, 40])
+        Window.blit(text3, (WIDTH / 2 + 10, HEIGHT / 2 + 80))
+
+        if WIDTH / 2 <= mouse[0] <= WIDTH / 2 + 140 and HEIGHT / 2 + 120 <= mouse[1] <= HEIGHT / 2 + 160:
+            pygame.draw.rect(Window, (0, 100, 0), [WIDTH / 2, HEIGHT / 2 + 120, 140, 40])
+        else:
+            pygame.draw.rect(Window, (0, 0, 0), [WIDTH / 2, HEIGHT / 2 + 120, 140, 40])
+        Window.blit(text4, (WIDTH / 2 + 10, HEIGHT / 2 + 120))
+
+
+
+
+        # updates the frames of the game
+        pygame.display.update()
+
+
 
 def menu():
     go = True
@@ -267,19 +326,36 @@ def menu():
         keys = pygame.key.get_pressed()
         font = pygame.font.SysFont("algerian", 20)
         Window.blit(bg, (0, 0))
-        game_label = font.render("PRESS    G    TO BEGIN GAME", 1, (0,0,0))
+        game_label = font.render("o autorze slow kilka", 1, (0,0,0))
         Window.blit(game_label, (140, 10))
         pygame.display.update()
         for el in pygame.event.get():
             if el.type == pygame.QUIT:
                 go = False
-            if keys[pygame.K_g]:
-                main()
-            if keys[pygame.K_a]:
-                Window.blit(bg, (0, 0))
-                author_label = font.render("info o autorze", 1, (0, 0, 0))
-                Window.blit(author_label, (140, 100))
+            if keys[pygame.K_m]:
+                main_menu()
+            if keys[pygame.K_ESCAPE]:
+                go = False
                 pygame.display.update()
 
     pygame.quit()
-menu()
+def best_game():
+    go = True
+    while go:
+        keys = pygame.key.get_pressed()
+        font = pygame.font.SysFont("algerian", 20)
+        Window.blit(bg, (0, 0))
+        game_label = font.render("The best score of game", 1, (0, 0, 0))
+        Window.blit(game_label, (140, 10))
+        pygame.display.update()
+        for el in pygame.event.get():
+            if el.type == pygame.QUIT:
+                go = False
+            if keys[pygame.K_m]:
+                main_menu()
+            if keys[pygame.K_ESCAPE]:
+                go = False
+                pygame.display.update()
+    pygame.quit()
+
+main_menu()
