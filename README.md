@@ -1,7 +1,7 @@
-# Game Title
-## Author:
+# NEWPACKMAN
+## Author: tapi262
 
-### Short description
+### Gra polegająca na zbieraniu punktów poprzez łapanie zielonych kryształków, złapanie kryształka czerwonego powoduje utratę jednego z trzech żyć.
 
 
 ### Technologies
