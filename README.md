@@ -2,15 +2,15 @@
 ![game](./images.zip/images/game.png)
 ## Author: tapi262
 
-### Gra polegająca na zbieraniu punktów poprzez łapanie zielonych kryształków, złapanie kryształka czerwonego powoduje utratę jednego z trzech żyć.
+### In the game you have to get green crystals and avoid red ones. if you catch a green crystal you get score. If you catch a red crystal you lose a life. The game ends when you lose 3 lives. You can show the best score. At any stage of the game you can return to the menu by pressing  'm'. 
 
 
 ### Technologies
-**name** - description
+**name** - Python with using pygame, time, os and random.
 
 ### How to run this app?
 1. Clone the template project, replacing my-project with the name of the project you are creating: 
-`git clone  https://github.com/github-anki/Game-Template.git my-project`
-`cd my-project `
+`https://github.com/tapi262/game_.git`
+`cd game_ `
 2. Install the project's development and runtime requirements:
 `pip install -r requirements.txt`
