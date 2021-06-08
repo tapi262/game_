@@ -1,5 +1,5 @@
 # NEWPACKMAN
-![game](./images.zip/game.png)
+![game](./images.zip/images/game.png)
 ## Author: tapi262
 
 ### Gra polegająca na zbieraniu punktów poprzez łapanie zielonych kryształków, złapanie kryształka czerwonego powoduje utratę jednego z trzech żyć.
