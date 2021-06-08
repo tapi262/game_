@@ -138,9 +138,13 @@ def sound(music):
 
 def save_score(path, scorex):
     """Funkcja zapisująca wyniki - scorex, gry do pliku o ścieżce path"""
-    f = open(path, "a")
-    f.write(";" + str(scorex))
-    f.close()
+    if os.path.exists(path):
+        open(path, "a").write(";" + str(scorex))
+    else:
+        f = open(path, "a")
+        f.write("0;0")
+        f.write(";" + str(scorex))
+        f.close()
 
 def get_score(path="wyniki.txt"):
     """Funkcja zwracająca z pliku z wynikami gry trzy najlepsze wyniki jako listę"""
