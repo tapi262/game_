@@ -2,11 +2,11 @@
 ![game](./images.zip/images/game.png)
 ## Author: tapi262
 
-### In the game you have to get green crystals and avoid red ones. if you catch a green crystal you get score. If you catch a red crystal you lose a life. The game ends when you lose 3 lives. You can show the best score. At any stage of the game you can return to the menu by pressing  'm'. 
+### In the game you have to get green crystals and avoid red ones. If you catch a green crystal you get score. If you catch a red crystal you lose a life. The game ends when you lose 3 lives. You can show the best score. At any stage of the game you can return to the menu by pressing  'm'. 
 
 
 ### Technologies
-**name** - Python with using pygame, time, os and random.
+ Python with using pygame, time, os and random.
 
 ### How to run this app?
 1. Clone the template project, replacing my-project with the name of the project you are creating: 
