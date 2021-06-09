@@ -218,15 +218,17 @@ def main():
         if live <= 0:
             lost = True
             lost_count += 1
-        if lost:
-            if lost_count > fps :
-                go = False
-                save_score("wyniki.txt", score)
-            else:
-                continue
         if lost: #dodanie inforamcji o przegranej na ekran
             lost_label = font1.render("LOST!!!", 1, (0,0,0))
-            Window.blit(lost_label, (220, 20))
+            Window.blit(lost_label, (200, 45))
+            pygame.display.update()
+            if lost_count > fps :
+                time.sleep(2)
+                go=False
+                save_score("wyniki.txt", score)
+                main_menu()
+            else:
+                continue
 
         if len(good_pows) == 0:
             gpow_len+=1
@@ -315,6 +317,7 @@ def main_menu():
 
             if ev.type == pygame.QUIT:
                 pygame.quit()
+                quit()
             if ev.type == pygame.MOUSEBUTTONDOWN:
 
                 # if the mouse is clicked on the
