@@ -19,14 +19,18 @@ bg=pygame.transform.scale(pygame.image.load(os.path.join(".\\bg.png")), (WIDTH, 
 useColorKey=True
 def image_bg(name, useColorKey=True):
     """Funkcja do kowertowania obrazów, głowne zadanie to nadawanie przezroczystości tłu"""
-    path= os.path.join(".\\" + name)
-    image = pygame.image.load(path)
-    image = image.convert()
-    if useColorKey is True:
-        image= image.convert()
-        c_key= image.get_at((0,0))
-        image.set_colorkey(c_key, pygame.RLEACCEL)
-    return image
+    path = os.path.join(".\\" + name)
+    if os.path.exists(path):
+        image = pygame.image.load(path)
+        image = image.convert()
+        if useColorKey is True:
+            image= image.convert()
+            c_key= image.get_at((0,0))
+            image.set_colorkey(c_key, pygame.RLEACCEL)
+
+        return image
+    else:
+        print("zła ścieżka do zdjecia")
 
 
 
@@ -317,6 +321,7 @@ def main_menu():
                 # button the game is terminated
                 if WIDTH / 2 <= mouse[0] <= WIDTH / 2 + 140 and HEIGHT / 2 +50<= mouse[1] <= HEIGHT / 2 + 90:
                     pygame.quit()
+                    quit()
                 if WIDTH / 2 <= mouse[0] <= WIDTH / 2 + 140 and HEIGHT / 2+90 <= mouse[1] <= HEIGHT / 2 + 130:
                     main()
                 if WIDTH / 2 <= mouse[0] <= WIDTH / 2 + 140 and HEIGHT / 2+130 <= mouse[1] <= HEIGHT / 2 + 170:
@@ -357,7 +362,7 @@ def main_menu():
 
 
         pygame.display.update()
-    pygame.quit()
+
 
 
 def author():
@@ -435,11 +440,9 @@ def rules():
                 main_menu()
             if keys[pygame.K_g]:
                 main()
-            if keys[pygame.K_ESCAPE]:
-                go = False
-                pygame.display.update()
 
     pygame.quit()
+    quit()
 
 def best_game():
     """Funkcja korzystająca z pliku wyniki.txt, tworzy listę trzech anjlepszych wyników za pomocą wcześniej zdefiniowanej funkcji  po wyborze takiej opcji w menu, z możliością powrotu do menu lub rozpoczęcia gry"""
@@ -472,8 +475,9 @@ def best_game():
                 go = False
             if keys[pygame.K_m]:
                 main_menu()
-            if keys[pygame.K_ESCAPE]:
-                go = False
-                pygame.display.update()
+
     pygame.quit()
+    quit()
 main_menu() #wywołanie menu jako pierwszego etapu gry
+pygame.quit()
+quit()
