@@ -14,3 +14,5 @@
 `cd game_ `
 2. Install the project's development and runtime requirements:
 `pip install -r requirements.txt`
+3.Run the game:
+`Run the game: python game_.py`
