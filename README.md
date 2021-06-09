@@ -6,7 +6,7 @@
 
 
 ### Technologies
- Python with using pygame, time, os and random.
+ Python with using module pygame, time, os and random.
 
 ### How to run this app?
 1. Clone the template project, replacing my-project with the name of the project you are creating: 
